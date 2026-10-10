@@ -1,0 +1,15 @@
+# ASGI web framework and development server
+fastapi
+uvicorn
+
+# Environment configuration and Gemini API client
+python-dotenv
+google-generativeai
+
+# API rate limiting and request validation / multipart uploads
+slowapi
+pydantic
+python-multipart
+
+# Async HTTP client used to call the SerpApi Search API
+httpx

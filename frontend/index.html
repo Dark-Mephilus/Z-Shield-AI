@@ -1,0 +1,302 @@
+<!--Z Shield AI (HTML Part)-->
+<!--Program by Zidaan-->
+<!DOCTYPE html>
+<html lang="en">
+<!--Head Part-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-Shield AI | Analyze Before You Trust</title>
+    <!--Linking required files-->
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.21/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<!--Body Part-->
+<body>
+    <header class="glass-header">
+        <div class="logo-container">
+            <div class="shield-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h1>Z-Shield <span>AI</span></h1>
+        </div>
+        <!--Badges of the header-->
+        <div class="header-badges">
+            <div class="header-badge privacy-badge">🔒 Zero-Retention Architecture</div>
+            <div class="header-badge">Project by Zidaan</div>
+        </div>
+    </header>
+    <!-- Main application shell: introduction, input controls, analysis dashboard, chat, and history. -->
+    <!--Main Contents of the page-->
+    <main class="container">
+        <section class="hero-section slide-up">
+            <div class="hero-content">
+                <div class="hero-shield-anim">🛡️</div>
+                <h2 class="tagline">Analyze Before You <span>Trust</span></h2>
+                <p class="description">Protect yourself from scams, hidden clauses, risky agreements, and misleading offers. The advanced AI scans for physical, financial, and psychological red flags.<span style="color: red;"> For the best experience, install Z-Shield AI using your browser's Install option on PC or "Add to Home Screen" on mobile.</span></p>
+            </div>
+        </section>
+        <!-- Input supports pasted text or local file/image upload. -->
+        <!--Input Section-->
+        <section class="input-section glass-panel slide-up delay-1">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="text">Paste Text</button>
+                <button class="tab-btn" data-tab="file">Upload File / Image</button>
+            </div>
+            <!--Text Input Area-->
+            <div class="tab-content active" id="textContent">
+                <textarea id="documentInput" placeholder="Paste contracts, emails, job offers, or messages here..."></textarea>
+                <div class="input-footer"><span id="charCount">0 characters</span></div>
+            </div>
+            <!--File Upload Area-->
+            <div class="tab-content" id="fileContent">
+                <div class="drop-zone" id="dropZone">
+                    <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <p>Drag & drop your document or image here</p>
+                    <span class="file-formats">Supported: PDF, DOCX, TXT, CSV, JSON, PNG, JPG, JPEG</span>
+                    <input type="file" id="fileInput" accept=".pdf,.docx,.txt,.csv,.json,.png,.jpg,.jpeg">
+                </div>
+                <div id="fileInfo" class="hidden glass-panel file-card">
+                    <!-- File details and remove button -->
+                    <div class="file-details">
+                        <span class="icon" id="fileIcon">📄</span>
+                        <div>
+                            <p id="fileName" class="font-bold">filename.pdf</p>
+                            <p id="fileMeta" class="text-muted text-sm">Size: 0 MB | Extracted Words: 0</p>
+                        </div>
+                    </div>
+                    <button id="removeFileBtn" class="btn-text text-red">Remove</button>
+                </div>
+            </div>
+            <!-- Feature indicators summarize the checks available in this build. -->
+        <!--Analysis depth badges for the report-->
+            <div class="analysis-depth">
+                <span class="depth-item active">✓ Basic Checks</span>
+                <span class="depth-item active">✓ Contract Intelligence</span>
+                <span class="depth-item active">✓ Verification Matrix</span>
+                <span class="depth-item active">✓ Live Web Verification</span>
+                <span class="depth-item active" style="color: var(--success-green);">✓ Anti-Injection Firewall</span>
+            </div>
+            <!--Analyze Button-->
+            <div class="action-container">
+                <button id="analyzeBtn" class="btn-primary glow-effect">
+                    <span class="btn-text-main">Analyze Risk Profile</span>
+                    <svg class="loader hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"></circle></svg>
+                </button>
+            </div>
+        </section>
+        <!--Status Message-->
+        <div id="statusMessage" class="status-message hidden"></div>
+        <!--Report Section-->
+        <div id="reportWrapper">
+            <!-- Analysis results are filled dynamically by frontend/script.js. -->
+        <section id="resultsDashboard" class="results-dashboard hidden fade-in">
+                <div class="dashboard-header">
+                    <h2>Intelligence Report</h2>
+                    <button id="exportPdfBtn" class="btn-secondary">Export to PDF</button>
+                </div>
+                <!--Trust Insights Banner-->
+                <div class="trust-insights-banner glass-panel mb-3">
+                    <div class="insight-block">
+                        <span class="insight-label">Risk Category</span>
+                        <h3 id="riskCategoryLabel">Analyzing...</h3>
+                    </div>
+                    <div class="insight-block border-left">
+                        <span class="insight-label">Missing Info Points</span>
+                        <h3 id="missingInfoCount">0</h3>
+                    </div>
+                    <div class="insight-block border-left">
+                        <span class="insight-label">Verification Difficulty</span>
+                        <h3 id="verificationDiff">Evaluating...</h3>
+                    </div>
+                </div>
+                <!--Risk Timeline-->
+                <div class="risk-timeline glass-panel mb-3">
+                    <h3>Threat Spectrum</h3>
+                    <div class="timeline-bar">
+                        <div class="timeline-indicator" id="timelineIndicator"></div>
+                        <div class="timeline-zone bg-green">Safe</div>
+                        <div class="timeline-zone bg-yellow">Caution</div>
+                        <div class="timeline-zone bg-orange">Risky</div>
+                        <div class="timeline-zone bg-red">Critical</div>
+                    </div>
+                </div>
+                <!--Scores Grid-->
+                <div class="scores-grid">
+                    <div class="score-card glass-panel">
+                        <h3>Safety Score</h3>
+                        <div class="gauge-container">
+                            <div id="safetyGauge" class="circular-gauge" style="--percentage: 0%; --score-color: #00f3ff;">
+                                <div class="gauge-inner"><span id="safetyScoreValue">0</span><span class="gauge-max">/10</span></div>
+                            </div>
+                        </div>
+                        <p id="safetyCategory" class="score-label">Pending</p>
+                    </div>
+                    <!--Trust Rating and Scam Probability Cards-->
+                    <div class="score-card glass-panel">
+                        <h3>Trust Rating</h3>
+                        <div class="gauge-container">
+                            <div id="trustGauge" class="circular-gauge" style="--percentage: 0%; --score-color: #4ade80;">
+                                <div class="gauge-inner"><span id="trustScoreValue">0</span><span class="gauge-max">%</span></div>
+                            </div>
+                        </div>
+                        <p class="score-label">Reliability</p>
+                    </div>
+                    <!--Scam Probability Card-->
+                    <div class="score-card glass-panel alert-zone">
+                        <h3>Scam Probability</h3>
+                        <div class="gauge-container">
+                            <div id="scamGauge" class="circular-gauge" style="--percentage: 0%; --score-color: #ff4c4c;">
+                                <div class="gauge-inner"><span id="scamScoreValue">0</span><span class="gauge-max">%</span></div>
+                            </div>
+                        </div>
+                        <p class="score-label">Risk Factor</p>
+                    </div>
+                </div>
+                <!--Scam Reasoning Panel-->
+                <div class="content-card glass-panel alert-zone mb-3" id="scamReasoningPanel">
+                    <h3><span class="icon">🔍</span> AI Reasoning</h3>
+                    <ul id="scamFactorsList" class="data-list red-list"></ul>
+                </div>
+                <!--Live Web Verification Panel - powered by SerpApi, Gemini remains primary-->
+                <div class="content-card glass-panel web-verification-panel mb-3" id="webVerificationPanel">
+                    <div class="web-verification-header">
+                        <div>
+                            <h3><span class="icon">🌐</span> Live Web Verification</h3>
+                            <p id="webVerificationStatus" class="text-content">Checking public web evidence...</p>
+                        </div>
+                        <span id="webVerificationBadge" class="badge outline">Pending</span>
+                    </div>
+                    <div class="web-verification-summary">
+                        <div class="web-stat">
+                            <span class="insight-label">Targets Checked</span>
+                            <strong id="webTargetsChecked">0</strong>
+                        </div>
+                        <div class="web-stat">
+                            <span class="insight-label">Evidence Sources</span>
+                            <strong id="webSourceCount">0</strong>
+                        </div>
+                        <div class="web-stat">
+                            <span class="insight-label">Assessment</span>
+                            <strong id="webAssessmentStatus">Inconclusive</strong>
+                        </div>
+                        <div class="web-stat">
+                            <span class="insight-label">Search Coverage</span>
+                            <strong id="webSearchCoverage">0%</strong>
+                        </div>
+                        <div class="web-stat">
+                            <span class="insight-label">Evidence Coverage</span>
+                            <strong id="webEvidenceCoverage">0%</strong>
+                        </div>
+                    </div>
+                    <p class="web-source-meta">Coverage measures whether searches completed and returned results, not whether a claim is true. Source tiers are heuristic signals, not guarantees.</p>
+                    <div id="webFindings" class="web-findings"></div>
+                    <div id="webSources" class="web-sources"></div>
+                </div>
+
+                <!--Analysis Grid-->
+                <div class="analysis-grid">
+                    <div class="analysis-col">
+                        <!--Summary Panel-->
+                        <div class="content-card glass-panel">
+                            <h3><span class="icon">📄</span> Smart Summary</h3>
+                            <p id="summaryText" class="text-content"></p>
+                        </div>
+                        <!--Intent and Plain English Panel-->
+                        <div class="content-card glass-panel">
+                            <h3><span class="icon">🎯</span> Intent & Plain English</h3>
+                            <div class="badge-container">
+                                <span id="intentBadge" class="badge">Detecting...</span>
+                                <span id="confidenceBadge" class="badge outline">Confidence: 0/10</span>
+                            </div>
+                            <p id="plainEnglishText" class="text-content mt-3"></p>
+                        </div>
+                        <!--Red Flags Panel-->
+                        <div class="content-card glass-panel warning-panel">
+                            <h3><span class="icon">🚩</span> Critical Red Flags</h3>
+                            <ul id="redFlagsList" class="data-list red-list"></ul>
+                        </div>
+                    </div>
+                    <div class="analysis-col">
+                        <!--Silent Red Flags Panel-->
+                        <div class="content-card glass-panel warning-panel-silent">
+                            <h3><span class="icon">👁️‍🗨️</span> Silent Red Flags (Missing Info)</h3>
+                            <ul id="silentFlagsList" class="data-list orange-list"></ul>
+                        </div>
+                        <!--Psychological Tactics Panel-->
+                        <div class="content-card glass-panel">
+                            <h3><span class="icon">🧠</span> Psychological Tactics</h3>
+                            <ul id="psychTacticsList" class="data-list purple-list"></ul>
+                        </div>
+                        <!--Safe Alternatives Panel-->
+                        <div class="content-card glass-panel safe-panel">
+                            <h3><span class="icon">✅</span> Safe Alternatives</h3>
+                            <ul id="safeAlternativesList" class="data-list green-list"></ul>
+                        </div>
+                        <!--Action Plan Panel-->
+                        <div class="content-card glass-panel action-panel">
+                            <h3><span class="icon">🛡️</span> Action Plan</h3>
+                            <!--Immediate Actions Panel-->
+                            <div class="action-section">
+                                <h4>Immediate Actions</h4>
+                                <ul id="immediateActionsList" class="data-list green-list"></ul>
+                            </div>
+                            <!--Smart Questions Panel-->
+                            <div class="action-section mt-3">
+                                <h4>Smart Questions to Ask</h4>
+                                <ul id="smartQuestionsList" class="data-list blue-list"></ul>
+                            </div>
+                            <!--Fact Check Recommendations Panel-->
+                            <div class="action-section mt-3">
+                                <h4>Fact Check Recommendations</h4>
+                                <ul id="factCheckList" class="data-list cyan-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Contract Intelligence Panel-->
+                <div class="content-card glass-panel full-width mt-3" id="contractSection">
+                    <h3><span class="icon">⚖️</span> Clause-by-Clause Contract Intelligence</h3>
+                    <div class="contract-grid" id="contractGrid">
+                        </div>
+                </div>
+            </section>
+        </div> 
+        <!--Chat Section for users to ask questions of the uploaded PDF or pasted text-->
+        <!-- Follow-up questions are sent to the FastAPI chat endpoint. -->
+        <section id="chatSection" class="chat-section glass-panel slide-up delay-2 hidden">
+            <div class="chat-header">
+                <h3>💬 Ask Z-Shield</h3>
+                <span class="text-xs text-muted">Ask anything about your document or image</span>
+            </div>
+            <!--Chat Box for displaying messages-->
+            <div class="chat-box" id="chatBox">
+                <div class="chat-msg ai-msg">Report generated. What specific risks or clauses would you like me to explain further?</div>
+            </div>
+            <!--Chat Input Area-->
+            <div class="chat-input-wrapper">
+                <input type="text" id="chatInput" placeholder="E.g., Is this payment link safe?">
+                <button id="sendChatBtn" class="btn-primary-small">Send</button>
+            </div>
+        </section>
+        <!--History Section for displaying past scans-->
+        <!-- Scan history is stored locally in this browser, not in a server database. -->
+        <section class="history-section glass-panel slide-up delay-2">
+            <div class="history-header">
+                <h3>Scan History</h3>
+                <button id="clearHistoryBtn" class="btn-text">Clear</button>
+            </div>
+            <ul id="historyList" class="history-list">
+                <li class="empty-history">No past scans found.</li>
+            </ul>
+        </section>
+    </main>
+    <!--Linking the external JavaScript file-->
+    <script src="script.js"></script>
+</body>
+</html>
+<!--End of Program-->
