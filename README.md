@@ -17,7 +17,7 @@ Gemini 2.5 Flash performs the primary contextual analysis. SerpApi adds live pub
 ## 🌐 Live Demo
 
 🚀 **Try Z-Shield AI:**  
-https://z-shield-ai.onrender.com/
+https://z-shield-ai-jx0g.onrender.com/
 
 ⭐ If you find this project useful, consider giving it a star on GitHub.
 
